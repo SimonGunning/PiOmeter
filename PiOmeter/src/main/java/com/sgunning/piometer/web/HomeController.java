@@ -1,8 +1,10 @@
-package com.sgunning.piometer;
+package com.sgunning.piometer.web;
 
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +13,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.sgunning.piometer.service.LocationService;
+
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class HomeController {
-	
+	@Inject
+	public HomeController(LocationService locationService) {
+		super();
+		this.locationService = locationService;
+	}
+
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private LocationService locationService;
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -32,6 +42,8 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
+		
+		model.addAttribute("locations", locationService.getLocations());
 		
 		return "home";
 	}
