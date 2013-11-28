@@ -38,9 +38,9 @@ public class WebRequestController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	public WebRequest getWebRequest() throws ParseException {
+	public Collection<WebRequest> getWebRequest() throws ParseException {
 		logger.info("in getWebRequest");
-		Location location = new Location("London");
+/*		Location location = new Location("London");
 		String s = "03/24/2013 21:54";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
 				"dd/MM/yyyy HH:mm");
@@ -48,8 +48,9 @@ public class WebRequestController {
 
 		WebRequest myWebRequest = new WebRequest(date, date, location,
 				"some stuff");
-
-		return myWebRequest;
+*/
+		Collection<WebRequest> myWebRequests = requestService.getWebRequests("London");
+		return myWebRequests;
 	}
 
 	// @RequestStatus(HttpStatus.CREATED)
@@ -58,6 +59,7 @@ public class WebRequestController {
 	@ResponseBody
 	public WebRequest createWebRequest(@RequestBody WebRequest webRequest) {
 		logger.info("in createWebRequest");
+		requestService.addWebRequest(webRequest);
 
 		return webRequest;
 

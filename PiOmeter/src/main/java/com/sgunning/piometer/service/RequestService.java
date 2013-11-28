@@ -9,5 +9,9 @@ public interface RequestService {
 
 	public abstract Collection<WebRequest> getWebRequests(String location)
 			throws DataAccessException;
+	
+	public void addWebRequest(WebRequest webRequest)
+			throws DataAccessException;
+
 
 }

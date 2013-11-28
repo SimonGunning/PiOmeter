@@ -10,13 +10,14 @@
 </head>
 <body>
 	<h1>Please select a location to see performance statistics:</h1>
+	Here is the pc .... ${pageContext.request.contextPath}
 	<ol>
 		<c:forEach items="${locations}" var="location">
 			<c:url value="/location" var="locString">
 				<c:param name="location" value="${location.name}"></c:param>
 			</c:url>
 			
-			<li><a href="PiOmeter/location?location='London'">${location.name}</a></li>
+			<li><a href="${pageContext.request.contextPath}/location?location='London'">${location.name}</a></li>
 		</c:forEach>
 	</ol>
 

@@ -24,6 +24,7 @@ public class WebRequest {
 	private Date endTime;
 	private Location location;
 	private String requestUrl;
+	private boolean success;
 	public Date getStartTime() {
 		return startTime;
 	}
@@ -47,5 +48,13 @@ public class WebRequest {
 	}
 	public void setRequestUrl(String requestUrl) {
 		this.requestUrl = requestUrl;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 }

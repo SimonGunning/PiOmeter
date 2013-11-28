@@ -28,5 +28,9 @@ public class RequestServiceImpl implements RequestService {
 		return webRequestRepository.findAllWebRequestByLocation(location);
 
 	}
+	public void addWebRequest(WebRequest webRequest){
+		webRequestRepository.save(webRequest);
+		return;
+	}
 
 }

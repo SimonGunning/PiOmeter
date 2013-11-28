@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -40,30 +41,19 @@ public class JdbcWebRequestRepositoryImpl implements WebRequestRepository {
 	public Collection<WebRequest> findAllWebRequestByLocation(
 			String locationName) throws DataAccessException {
 		System.out.println("in jdbc impl...about to call db");
-		int myLocationId;
+		int myLocationId = 1;
 		if (locationName.equalsIgnoreCase("London")) {
 			myLocationId = 1;
 		} else {
-			myLocationId = 2;
+			if (locationName.equalsIgnoreCase("Hong Kong")) {
+				myLocationId = 2;
+
+			}
+
 		}
-		
-        switch (locationName.toLowerCase()) {
-            case "london":  myLocationId = 1;
-                     break;
-            case "Hong Kong":  myLocationId = 2;
-                     break;
-            case "Tokyo":  myLocationId = 3;
-                     break;
-            
-            
-            default: myLocationId = 1;
-                     break;
-        }
-		
-		
-		
+
 		Map<String, Object> params = new HashMap<String, Object>();
-//		params.put("locationId", myLocationId + "%");
+		// params.put("locationId", myLocationId + "%");
 		params.put("locationId", myLocationId);
 
 		List<WebRequest> webrequests = this.namedParameterJdbcTemplate.query(
@@ -74,6 +64,17 @@ public class JdbcWebRequestRepositoryImpl implements WebRequestRepository {
 
 	public void save(WebRequest webRequest) throws DataAccessException {
 		// TODO Auto-generated method stub
+//		SqlParameterSource paramSource = null;
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("requesturl", webRequest.getRequestUrl());
+		params.put("startdate", webRequest.getStartTime());
+		params.put("enddate", webRequest.getEndTime());
+		params.put("success", webRequest.isSuccess());
+		params.put("location_id", 1);
+		
+		String sql = "insert into web_requests (requesturl, startdate, enddate, success, location_id)" +
+		"values (:requesturl, :startdate, :enddate, :success, :location_id)";
+		this.namedParameterJdbcTemplate.update(sql, params);
 
 	}
 
